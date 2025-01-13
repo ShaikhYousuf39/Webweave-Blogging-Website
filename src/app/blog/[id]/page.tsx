@@ -174,6 +174,8 @@ return (
   },
 };
 
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function BlogPost({ params }: { params: { id: string } }) {
   console.log("Params received:", params);
 
