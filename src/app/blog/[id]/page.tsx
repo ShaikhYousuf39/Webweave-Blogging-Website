@@ -1,16 +1,7 @@
-"use client";
-
+// app/blog/[id]/page.tsx
 import { JSX } from "react";
 import Link from "next/link";
-import {
-  FaHtml5,
-  FaCss3Alt,
-  FaReact,
-  FaJs,
-  FaCode,
-  FaEdit,
-  FaLaptopCode,
-} from "react-icons/fa";
+import { FaHtml5, FaCss3Alt, FaReact, FaJs, FaCode, FaEdit, FaLaptopCode } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
 import { Poppins } from "next/font/google";
 
@@ -33,8 +24,7 @@ interface BlogPostType {
 const BLOG_POSTS: Record<string, BlogPostType> = {
   "1": {
     title: "What is HTML?",
-    content:
-      "HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content.",
+    content: "HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content.",
     date: "25 December 2024",
     codeExample: `<!DOCTYPE html>
 <html>
@@ -54,20 +44,21 @@ const BLOG_POSTS: Record<string, BlogPostType> = {
     link: "https://developer.mozilla.org/en-US/docs/Web/HTML",
     icon: <FaHtml5 className="text-6xl text-orange-500" />,
   },
-  "2": {
+  2: {
     title: "What is CSS?",
     content:
       "CSS (Cascading Style Sheets) is a stylesheet language used to describe the presentation of a document written in HTML or XML.",
     date: "25 December 2024",
     codeExample: `
 body {
-  background-color: #f0f0f0;
-  font-family: Arial, sans-serif;
+background-color: #f0f0f0;
+font-family: Arial, sans-serif;
 }
 
 h1 {
-  color: #333;
-}`,
+color: #333;
+}
+    `,
     keyFeatures: [
       "Customizes web appearance",
       "Supports animations and transitions",
@@ -174,11 +165,15 @@ return (
   },
 };
 
+interface PageProps {
+  params: {
+    id: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function BlogPost({ params }: { params: { id: string } }) {
-  console.log("Params received:", params);
-
+export default function BlogPost({ params, searchParams }: PageProps) {
   const post = BLOG_POSTS[params.id];
 
   if (!post) {
@@ -186,11 +181,11 @@ export default function BlogPost({ params }: { params: { id: string } }) {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-slate-800 to-gray-900">
         <div className="text-gray-200 text-xl mb-4">Post not found!</div>
         <div className="text-gray-400 mb-4">Looking for ID: {params.id}</div>
-        <Link
-          href="/"
+        <Link 
+          href="/blog" 
           className="text-blue-400 hover:text-blue-300 transition-colors"
         >
-          Return to Home
+          Return to Blog
         </Link>
       </div>
     );
@@ -198,9 +193,8 @@ export default function BlogPost({ params }: { params: { id: string } }) {
 
   return (
     <div className="bg-gradient-to-r from-slate-800 to-gray-900 min-h-screen p-4 md:p-8 font-sans text-gray-100">
-      <div
-        className={`max-w-3xl mx-auto bg-slate-700 shadow-2xl rounded-lg overflow-hidden ${poppins.className}`}
-      >
+      <div className={`max-w-3xl mx-auto bg-slate-700 shadow-2xl rounded-lg overflow-hidden ${poppins.className}`}>
+        {/* Rest of your component remains the same */}
         <div className="p-8">
           <div className="flex justify-center mb-4">
             <div className="text-center">{post.icon}</div>
@@ -211,7 +205,7 @@ export default function BlogPost({ params }: { params: { id: string } }) {
           </h1>
           <p className="text-sm text-gray-400 text-center mb-4">{post.date}</p>
           <p className="text-gray-300 leading-relaxed mb-6">{post.content}</p>
-
+          
           <pre className="bg-gray-800 text-white p-4 rounded-lg shadow-md overflow-auto">
             <code>{post.codeExample}</code>
           </pre>
@@ -241,19 +235,19 @@ export default function BlogPost({ params }: { params: { id: string } }) {
         </div>
 
         <div className="flex justify-center gap-4 p-6">
-          <Link
-            href={post.link || "#"}
-            target="_blank"
+          <Link 
+            href={post.link || "#"} 
+            target="_blank" 
             rel="noopener noreferrer"
             className="px-6 py-3 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out shadow-md"
           >
             Documentation
           </Link>
           <Link
-            href="/"
+            href="/blog"
             className="px-6 py-3 bg-slate-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-500 transition duration-300 ease-in-out shadow-md"
           >
-            Back to Home
+            Back to Blog
           </Link>
         </div>
       </div>
