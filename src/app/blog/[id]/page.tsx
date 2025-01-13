@@ -1,4 +1,3 @@
-// app/blog/[id]/page.tsx
 import { JSX } from "react";
 import Link from "next/link";
 import { FaHtml5, FaCss3Alt, FaReact, FaJs, FaCode, FaEdit, FaLaptopCode } from "react-icons/fa";
@@ -172,7 +171,6 @@ interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function BlogPost({ params, searchParams }: PageProps) {
   const post = BLOG_POSTS[params.id];
 
