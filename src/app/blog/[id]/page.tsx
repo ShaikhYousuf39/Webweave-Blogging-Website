@@ -1,9 +1,17 @@
 "use client";
-import { JSX, useEffect, useState } from "react";
-import Link from "next/link";
-import { FaHtml5, FaCss3Alt, FaReact, FaJs, FaCode, FaEdit, FaLaptopCode } from "react-icons/fa"; 
-import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
 
+import { JSX } from "react";
+import Link from "next/link";
+import {
+  FaHtml5,
+  FaCss3Alt,
+  FaReact,
+  FaJs,
+  FaCode,
+  FaEdit,
+  FaLaptopCode,
+} from "react-icons/fa";
+import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
@@ -11,7 +19,7 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
-interface BlogPost {
+interface BlogPostType {
   title: string;
   content: string;
   date: string;
@@ -22,15 +30,13 @@ interface BlogPost {
   icon?: JSX.Element;
 }
 
-const BlogPost = ({ params }: { params: { id: string } }) => {
-  const blogPost: Record<number, BlogPost> = {
-    1: {
-      title: "What is HTML?",
-      content:
-        "HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content.",
-      date: "25 December 2024",
-      codeExample: `
-<!DOCTYPE html>
+const BLOG_POSTS: Record<string, BlogPostType> = {
+  "1": {
+    title: "What is HTML?",
+    content:
+      "HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content.",
+    date: "25 December 2024",
+    codeExample: `<!DOCTYPE html>
 <html>
   <head>
     <title>Example</title>
@@ -38,23 +44,22 @@ const BlogPost = ({ params }: { params: { id: string } }) => {
   <body>
     <h1>Hello, World!</h1>
   </body>
-</html>
-      `,
-      keyFeatures: [
-        "Defines web structure",
-        "Supports multimedia elements like images and videos",
-        "Enables linking between pages",
-      ],
-      bestEditor: "VS Code",
-      link: "https://developer.mozilla.org/en-US/docs/Web/HTML",
-      icon: <FaHtml5 className="text-6xl text-orange-500" />,
-    },
-    2: {
-      title: "What is CSS?",
-      content:
-        "CSS (Cascading Style Sheets) is a stylesheet language used to describe the presentation of a document written in HTML or XML.",
-      date: "25 December 2024",
-      codeExample: `
+</html>`,
+    keyFeatures: [
+      "Defines web structure",
+      "Supports multimedia elements like images and videos",
+      "Enables linking between pages",
+    ],
+    bestEditor: "VS Code",
+    link: "https://developer.mozilla.org/en-US/docs/Web/HTML",
+    icon: <FaHtml5 className="text-6xl text-orange-500" />,
+  },
+  "2": {
+    title: "What is CSS?",
+    content:
+      "CSS (Cascading Style Sheets) is a stylesheet language used to describe the presentation of a document written in HTML or XML.",
+    date: "25 December 2024",
+    codeExample: `
 body {
   background-color: #f0f0f0;
   font-family: Arial, sans-serif;
@@ -62,146 +67,153 @@ body {
 
 h1 {
   color: #333;
-}
-      `,
-      keyFeatures: [
-        "Customizes web appearance",
-        "Supports animations and transitions",
-        "Responsive design with media queries",
-      ],
-      bestEditor: "VS Code with Live Server extension",
-      link: "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      icon: <FaCss3Alt className="text-6xl text-blue-500" />,
-    },
-    3: {
-      title: "What is JavaScript?",
-      content:
-        "JavaScript is a versatile programming language that powers interactive features on web pages and supports full-stack development.",
-      date: "25 December 2024",
-      codeExample: `
+}`,
+    keyFeatures: [
+      "Customizes web appearance",
+      "Supports animations and transitions",
+      "Responsive design with media queries",
+    ],
+    bestEditor: "VS Code with Live Server extension",
+    link: "https://developer.mozilla.org/en-US/docs/Web/CSS",
+    icon: <FaCss3Alt className="text-6xl text-blue-500" />,
+  },
+  3: {
+    title: "What is JavaScript?",
+    content:
+      "JavaScript is a versatile programming language that powers interactive features on web pages and supports full-stack development.",
+    date: "25 December 2024",
+    codeExample: `
 function greet(name) {
-  return \`Hello, \${name}!\`;
+return \`Hello, \${name}!\`;
 }
 
 console.log(greet('World'));
-      `,
-      keyFeatures: [
-        "Client-side and server-side capabilities",
-        "Supports event-driven programming",
-        "Wide array of libraries and frameworks",
-      ],
-      bestEditor: "VS Code with ESLint and Prettier extensions",
-      link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-      icon: <FaJs className="text-6xl text-yellow-500" />,
-    },
-    4: {
-      title: "What is React?",
-      content:
-        "React is a JavaScript library for building user interfaces, known for its component-based architecture and virtual DOM.",
-      date: "25 December 2024",
-      codeExample: `
+    `,
+    keyFeatures: [
+      "Client-side and server-side capabilities",
+      "Supports event-driven programming",
+      "Wide array of libraries and frameworks",
+    ],
+    bestEditor: "VS Code with ESLint and Prettier extensions",
+    link: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+    icon: <FaJs className="text-6xl text-yellow-500" />,
+  },
+  4: {
+    title: "What is React?",
+    content:
+      "React is a JavaScript library for building user interfaces, known for its component-based architecture and virtual DOM.",
+    date: "25 December 2024",
+    codeExample: `
 import React from 'react';
 
 function App() {
-  return (
-    <div>
-      <h1>Hello, React!</h1>
-      <p>Welcome to the world of components.</p>
-    </div>
-  );
+return (
+  <div>
+    <h1>Hello, React!</h1>
+    <p>Welcome to the world of components.</p>
+  </div>
+);
 }
 
 export default App;
-      `,
-      keyFeatures: [
-        "Component-based architecture",
-        "Virtual DOM for performance optimization",
-        "Rich ecosystem with hooks and context",
-      ],
-      bestEditor: "VS Code with React Developer Tools",
-      link: "https://reactjs.org/docs/getting-started.html",
-      icon: <FaReact className="text-6xl text-cyan-500" />,
-    },
-    5: {
-      title: "What is Next.js?",
-      content:
-        "Next.js is a React-based framework for building scalable web applications with server-side rendering and static site generation.",
-      date: "25 December 2024",
-      codeExample: `
+    `,
+    keyFeatures: [
+      "Component-based architecture",
+      "Virtual DOM for performance optimization",
+      "Rich ecosystem with hooks and context",
+    ],
+    bestEditor: "VS Code with React Developer Tools",
+    link: "https://reactjs.org/docs/getting-started.html",
+    icon: <FaReact className="text-6xl text-cyan-500" />,
+  },
+  5: {
+    title: "What is Next.js?",
+    content:
+      "Next.js is a React-based framework for building scalable web applications with server-side rendering and static site generation.",
+    date: "25 December 2024",
+    codeExample: `
 import Link from 'next/link';
 
 export default function Home() {
-  return (
-    <div>
-      <h1>Welcome to Next.js</h1>
-      <Link href="/about">Go to About Page</Link>
-    </div>
-  );
+return (
+  <div>
+    <h1>Welcome to Next.js</h1>
+    <Link href="/about">Go to About Page</Link>
+  </div>
+);
 }
-      `,
-      keyFeatures: [
-        "Server-side rendering and static site generation",
-        "API routes for backend logic",
-        "Automatic routing and code splitting",
-      ],
-      bestEditor: "VS Code with Next.js snippets extension",
-      link: "https://nextjs.org/docs",
-      icon: <SiNextdotjs className="text-6xl text-gray-300" />,
-    },
-    6: {
-      title: "What is Tailwind CSS?",
-      content:
-        "Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces without writing custom CSS.",
-      date: "25 December 2024",
-      codeExample: `
+    `,
+    keyFeatures: [
+      "Server-side rendering and static site generation",
+      "API routes for backend logic",
+      "Automatic routing and code splitting",
+    ],
+    bestEditor: "VS Code with Next.js snippets extension",
+    link: "https://nextjs.org/docs",
+    icon: <SiNextdotjs className="text-6xl text-gray-300" />,
+  },
+  6: {
+    title: "What is Tailwind CSS?",
+    content:
+      "Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces without writing custom CSS.",
+    date: "25 December 2024",
+    codeExample: `
 <div class="bg-gray-800 text-white p-4 rounded">
-  <h1 class="text-xl font-bold">Hello, Tailwind!</h1>
-  <p>This is a sample card using Tailwind CSS classes.</p>
+<h1 class="text-xl font-bold">Hello, Tailwind!</h1>
+<p>This is a sample card using Tailwind CSS classes.</p>
 </div>
-      `,
-      keyFeatures: [
-        "Utility-first CSS framework",
-        "Highly customizable with configuration files",
-        "Built-in responsive design utilities",
-      ],
-      bestEditor: "VS Code with Tailwind IntelliSense extension",
-      link: "https://tailwindcss.com/docs",
-      icon: <SiTailwindcss className="text-teal-400 text-5xl" />,
-    },
-  };
+    `,
+    keyFeatures: [
+      "Utility-first CSS framework",
+      "Highly customizable with configuration files",
+      "Built-in responsive design utilities",
+    ],
+    bestEditor: "VS Code with Tailwind IntelliSense extension",
+    link: "https://tailwindcss.com/docs",
+    icon: <SiTailwindcss className="text-teal-400 text-5xl" />,
+  },
+};
 
-  const id = params.id;
-  const [post, setPost] = useState<BlogPost | null>(null);
+export default function BlogPost({ params }: { params: { id: string } }) {
+  console.log("Params received:", params);
 
-  useEffect(() => {
-    if (id) {
-      const postId = Number(id);
-      const foundPost = blogPost[postId];
-      setPost(foundPost);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  const post = BLOG_POSTS[params.id];
 
   if (!post) {
-    return <div className="text-center py-10 text-gray-200">Post not found!</div>;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-slate-800 to-gray-900">
+        <div className="text-gray-200 text-xl mb-4">Post not found!</div>
+        <div className="text-gray-400 mb-4">Looking for ID: {params.id}</div>
+        <Link
+          href="/"
+          className="text-blue-400 hover:text-blue-300 transition-colors"
+        >
+          Return to Home
+        </Link>
+      </div>
+    );
   }
 
   return (
-    <div className="bg-gradient-to-r from-slate-800 to-gray-900 min-h-screen p-8 font-sans text-gray-100">
+    <div className="bg-gradient-to-r from-slate-800 to-gray-900 min-h-screen p-4 md:p-8 font-sans text-gray-100">
       <div
-        className={`max-w-3xl mx-auto bg-slate-700 shadow-2xl rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl ${poppins.className}`}
+        className={`max-w-3xl mx-auto bg-slate-700 shadow-2xl rounded-lg overflow-hidden ${poppins.className}`}
       >
         <div className="p-8">
           <div className="flex justify-center mb-4">
             <div className="text-center">{post.icon}</div>
           </div>
 
-          <h1 className="text-4xl font-semibold text-blue-300 text-center">{post.title}</h1>
+          <h1 className="text-4xl font-semibold text-blue-300 text-center">
+            {post.title}
+          </h1>
           <p className="text-sm text-gray-400 text-center mb-4">{post.date}</p>
           <p className="text-gray-300 leading-relaxed mb-6">{post.content}</p>
+
           <pre className="bg-gray-800 text-white p-4 rounded-lg shadow-md overflow-auto">
             <code>{post.codeExample}</code>
           </pre>
+
           <div className="mt-6">
             <h2 className="text-xl text-blue-300 mb-2 flex items-center">
               <FaCode className="mr-2 text-blue-400" />
@@ -213,6 +225,7 @@ export default function Home() {
               ))}
             </ul>
           </div>
+
           <div className="mt-6">
             <h2 className="text-xl text-blue-300 mb-2 flex items-center">
               <FaEdit className="mr-2 text-blue-400" />
@@ -225,16 +238,23 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-center mt-6">
-          <Link href={post.link || "#"} passHref>
-            <button className="px-6 py-3 mb-3 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out shadow-md">
-              Documentation
-            </button>
+        <div className="flex justify-center gap-4 p-6">
+          <Link
+            href={post.link || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out shadow-md"
+          >
+            Documentation
+          </Link>
+          <Link
+            href="/"
+            className="px-6 py-3 bg-slate-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-500 transition duration-300 ease-in-out shadow-md"
+          >
+            Back to Home
           </Link>
         </div>
       </div>
     </div>
   );
-};
-
-export default BlogPost;
+}
